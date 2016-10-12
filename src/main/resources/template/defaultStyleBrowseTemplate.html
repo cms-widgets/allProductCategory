@@ -1,5 +1,49 @@
 <!--预览视图-->
-<div>
-    浏览视图
+<div xmlns:th="http://www.thymeleaf.org" class="product-categorys" th:id="${componentId}">
+    <div class="categorys-dorpdown">
+        <div class="dt">
+            <a target="_blank" href="#">全部商品分类</a>
+        </div>
+        <div class="dd">
+            <div class="item" th:each="item:${dataList}">
+                <div class="item-top">
+                    <h3>
+                        <!--一级菜单-->
+                        <a target="_blank" href="#" th:each="category :${item.categories}"
+                           th:href="@{/${category.contentURI}/{contentSerial}(contentSerial=${category.serial})}"
+                           th:text="${category.name}">
+                            家用电器</a>
+                    </h3>
+                    <i>&gt;</i>
+                </div>
+                <div class="item-sub show">
+                    <div class="item-channels">
+                        <div class="channels" th:if="${item.links}!=null">
+                            <!-- 一级菜单推荐活动-->
+                            <a href="#" target="_blank" th:each="link: ${links}" th:href="${link.linkUrl}"
+                               th:text="${link.title}">沸腾国庆<i>
+                                &gt;</i></a>
+                        </div>
+                    </div>
+                    <div class="subitems" th:if="${item.isParentFlag()}">
+                        <!--二级菜单-->
+                        <dl th:each="towchild : ${item.children}">
+                            <dt>
+                                <a href="#" target="_blank" th:each="category :${towchild.categories}"
+                                   th:href="@{/${category.contentURI}/{contentSerial}(contentSerial=${category.serial})}"
+                                   th:text="${category.name}">电视<i>&gt;</i></a>
+                            </dt>
+                            <!--三级菜单-->
+                            <dd th:if="${towchild.isParentFlag()}" th:each="threeChild : ${towchild.children}">
+                                <a href="#" target="_blank" th:each="category :${threeChild.categories}"
+                                   th:href="@{/${category.contentURI}/{contentSerial}(contentSerial=${category.serial})}"
+                                   th:text="${category.name}">沸腾国庆</a>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!--/预览视图-->

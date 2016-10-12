@@ -1,6 +1,26 @@
 <!--编辑视图-->
-<div>
-    编辑视图
+<div class="borderBoxs">
+    <form class="form-horizontal">
+        <div class="form-group clearfix">
+            <label class="col-sm-3 control-label">背景颜色</label>
+            <div class="col-sm-3">
+                <input type="text" name="BgColor" th:value="${BgColor}"
+                       class="form-control color-picker BgColor"/>
+            </div>
+            <label class="col-sm-3 control-label">文字颜色</label>
+            <div class="col-sm-3">
+                <input type="text" name="color" th:value="${color}"
+                       class="form-control color-picker color"/>
+            </div>
+        </div>
+
+        <div class="form-group clearfix">
+            <label class="col-sm-5 control-label">商城类目数据源:</label>
+            <div class="col-sm-7">
+                <span data-name="classCategorySerial" class="mallClass-category"></span>
+            </div>
+        </div>
+    </form>
 
 </div>
 <!--/编辑视图-->

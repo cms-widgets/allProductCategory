@@ -9,14 +9,14 @@
 
 package com.huotu.hotcms.widget.allProductCategory;
 
-import java.io.IOException;
-import java.util.function.Function;
-
 import com.huotu.hotcms.widget.ComponentProperties;
 import com.huotu.hotcms.widget.Widget;
 import com.huotu.hotcms.widget.WidgetStyle;
+import com.huotu.widget.test.Editor;
 import com.huotu.widget.test.WidgetTest;
 import org.openqa.selenium.WebElement;
+
+import java.io.IOException;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -31,9 +31,8 @@ public class TestWidgetInfo extends WidgetTest {
     }
 
     @Override
-    protected void editorWork(Widget widget, WebElement editor, Supplier<Map<String, Object>> currentWidgetProperties) {
+    protected void editorWork(Widget widget, Editor editor, Supplier<Map<String, Object>> currentWidgetProperties) {
         Map map = currentWidgetProperties.get();
-        //todo
     }
 
     @Override

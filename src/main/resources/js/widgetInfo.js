@@ -4,17 +4,13 @@
 CMSWidgets.initWidget({
 // 编辑器相关
     editor: {
-        properties: null,
-        saveComponent: function (onSuccess, onFailed) {
-            onSuccess(this.properties);
-            return this.properties;
-        },
-        open: function (globalId) {
-            this.properties = widgetProperties(globalId);
-
-        },
-        close: function (globalId) {
-
+        saveComponent: function (onFailed) {
+            this.properties.BgColor = $(".BgColor").val();
+            this.properties.color = $(".color").val();
+            if (this.properties.classCategorySerial == undefined || this.properties.classCategorySerial == '') {
+                onFailed('商城类目数据源不能为空');
+                return;
+            }
         }
     }
 });

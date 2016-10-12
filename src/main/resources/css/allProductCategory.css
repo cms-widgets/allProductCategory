@@ -1,0 +1,8 @@
+/*[[${'#'+componentId}]]*/
+{
+    background: /*[[${BgColor}]]*/ #fff;
+}
+/*[[${'#'+componentId+' a'}]]*/, /*[[${'#'+componentId +' p'}]]*/
+{
+   color:/*[[${color}]]*/ #444;
+}
