@@ -153,19 +153,19 @@ public class WidgetInfo implements Widget, PreProcessWidget {
                 List<Link> links = linkRepository.findByCategory(mallClassCategoryModel.getRecommendCategory());
                 mallClassCategoryModel.setLinks(links);
             }
-            setContentURI(variables, cmsDataSourceService, mallClassCategory);
+            setContentURI(variables, mallClassCategory);
             if (mallClassCategoryModel.isParentFlag()) {
                 mallClassCategoryModel.setChildren(new ArrayList<>());
                 for (MallClassCategory children : mallClassCategoryRepository
                         .findByParent_Serial(mallClassCategoryModel.getSerial())) {
-                    setContentURI(variables, cmsDataSourceService, children);
+                    setContentURI(variables, children);
                     MallClassCategoryModel childrenModel = children.toMallClassCategoryModel();
                     if (childrenModel.isParentFlag()) {
                         childrenModel.setChildren(new ArrayList<>());
                         for (MallClassCategory children2 : mallClassCategoryRepository.findByParent_Serial(childrenModel
                                 .getSerial())) {
                             MallClassCategoryModel children2Model = children2.toMallClassCategoryModel();
-                            setContentURI(variables, cmsDataSourceService, children2);
+                            setContentURI(variables, children2);
                             childrenModel.getChildren().add(children2Model);
                         }
                     }
@@ -178,25 +178,17 @@ public class WidgetInfo implements Widget, PreProcessWidget {
 
     }
 
-    private void setContentURI(Map<String, Object> variables, CMSDataSourceService cmsDataSourceService
-            , MallClassCategory mallClassCategory) {
+    private void setContentURI(Map<String, Object> variables, MallClassCategory mallClassCategory) {
         for (MallProductCategory mallProductCategory : mallClassCategory.getCategories()) {
-            String contentSerial = mallProductCategory.getSerial();
-            if (contentSerial != null) {
-                PageInfo contentPage = cmsDataSourceService.findPageInfoContent(contentSerial);
+            try {
+                PageInfo contentPage = CMSContext.RequestContext().getWebApplicationContext().getBean(PageService.class)
+                        .getClosestContentPage(mallProductCategory, (String) variables.get("uri"));
                 mallProductCategory.setContentURI(contentPage.getPagePath());
-            } else {
-                try {
-                    PageInfo contentPage = CMSContext.RequestContext().getWebApplicationContext().getBean(PageService.class)
-                            .getClosestContentPage(mallProductCategory, (String) variables.get("uri"));
-                    mallProductCategory.setContentURI(contentPage.getPagePath());
-                } catch (PageNotFoundException e) {
-                    log.warn("...", e);
-                    mallProductCategory.setContentURI((String) variables.get("uri"));
-                }
+            } catch (PageNotFoundException e) {
+                log.warn("...", e);
+                mallProductCategory.setContentURI((String) variables.get("uri"));
             }
         }
-
     }
 
 
