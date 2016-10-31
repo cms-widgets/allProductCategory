@@ -9,7 +9,7 @@
                 <div class="item-top">
                     <h3>
                         <!--一级菜单-->
-                        <a target="_blank" href="#" th:each="category :${item.categories}"
+                        <a target="_blank" href="javascript:void(0)" th:each="category :${item.categories}"
                            th:href="@{/${category.contentURI}}"
                            th:text="${category.name}">
                             家用电器</a>
@@ -20,7 +20,8 @@
                     <div class="item-channels">
                         <div class="channels" th:if="${item.links}!=null">
                             <!-- 一级菜单推荐活动-->
-                            <a href="#" target="_blank" th:each="link: ${links}" th:href="${link.linkUrl}"
+                            <a href="javascript:void(0)" target="_blank" th:each="link: ${links}"
+                               th:href="${link.linkUrl}"
                                th:text="${link.title}">沸腾国庆<i>
                                 &gt;</i></a>
                         </div>
@@ -29,13 +30,14 @@
                         <!--二级菜单-->
                         <dl th:each="towchild : ${item.children}">
                             <dt>
-                                <a href="#" target="_blank" th:each="category :${towchild.categories}"
+                                <a href="javascript:void(0)" target="_blank" th:each="category :${towchild.categories}"
                                    th:href="@{/${category.contentURI}}"
                                    th:text="${category.name}">电视<i>&gt;</i></a>
                             </dt>
                             <!--三级菜单-->
                             <dd th:if="${towchild.isParentFlag()}" th:each="threeChild : ${towchild.children}">
-                                <a href="#" target="_blank" th:each="category :${threeChild.categories}"
+                                <a href="javascript:void(0)" target="_blank"
+                                   th:each="category :${threeChild.categories}"
                                    th:href="@{/${category.contentURI}}"
                                    th:text="${category.name}">沸腾国庆</a>
                             </dd>

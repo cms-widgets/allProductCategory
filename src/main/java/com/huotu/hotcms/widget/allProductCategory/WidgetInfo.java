@@ -10,6 +10,7 @@
 package com.huotu.hotcms.widget.allProductCategory;
 
 import com.huotu.hotcms.service.common.ContentType;
+import com.huotu.hotcms.service.common.SiteType;
 import com.huotu.hotcms.service.entity.Link;
 import com.huotu.hotcms.service.entity.MallClassCategory;
 import com.huotu.hotcms.service.entity.MallProductCategory;
@@ -21,7 +22,6 @@ import com.huotu.hotcms.service.repository.MallProductCategoryRepository;
 import com.huotu.hotcms.service.service.CategoryService;
 import com.huotu.hotcms.widget.*;
 import com.huotu.hotcms.widget.entity.PageInfo;
-import com.huotu.hotcms.widget.service.CMSDataSourceService;
 import com.huotu.hotcms.widget.service.PageService;
 import me.jiangcai.lib.resource.service.ResourceService;
 import org.apache.commons.logging.Log;
@@ -39,11 +39,11 @@ import java.util.*;
  * @author CJ
  */
 public class WidgetInfo implements Widget, PreProcessWidget {
-    public static final Log log = LogFactory.getLog(WidgetInfo.class);
-    private static final String BG_COLOR = "BgColor";
-    private static final String COLOR = "color";
-    private static final String CLASS_CATEGORY_SERIAL = "classCategorySerial";
-    private static final String DATA_LIST = "dataList";
+    public static final String BG_COLOR = "BgColor";
+    public static final String COLOR = "color";
+    public static final String CLASS_CATEGORY_SERIAL = "classCategorySerial";
+    public static final String DATA_LIST = "dataList";
+    private static final Log log = LogFactory.getLog(WidgetInfo.class);
 
     @Override
     public String groupId() {
@@ -120,8 +120,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         ComponentProperties properties = new ComponentProperties();
         properties.put(BG_COLOR, "#0ff");
         properties.put(COLOR, "#fff");
-        MallClassCategoryRepository mallClassCategoryRepository = CMSContext.RequestContext().getWebApplicationContext()
-                .getBean(MallClassCategoryRepository.class);
+        MallClassCategoryRepository mallClassCategoryRepository = getCMSServiceFromCMSContext(MallClassCategoryRepository.class);
         List<MallClassCategory> mallClassCategoryList = mallClassCategoryRepository.findBySite(CMSContext.RequestContext().getSite());
         if (mallClassCategoryList.isEmpty()) {
             MallClassCategory mallClassCategory = initMallClassCategory(null, initMallProductCategory());
@@ -138,11 +137,8 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     @Override
     public void prepareContext(WidgetStyle style, ComponentProperties properties, Map<String, Object> variables
             , Map<String, String> parameters) {
-        MallClassCategoryRepository mallClassCategoryRepository = CMSContext.RequestContext()
-                .getWebApplicationContext().getBean(MallClassCategoryRepository.class);
-        LinkRepository linkRepository = CMSContext.RequestContext().getWebApplicationContext().getBean(LinkRepository.class);
-        CMSDataSourceService cmsDataSourceService = CMSContext.RequestContext().getWebApplicationContext()
-                .getBean(CMSDataSourceService.class);
+        MallClassCategoryRepository mallClassCategoryRepository = getCMSServiceFromCMSContext(MallClassCategoryRepository.class);
+        LinkRepository linkRepository = getCMSServiceFromCMSContext(LinkRepository.class);
 
         String serial = (String) properties.get(CLASS_CATEGORY_SERIAL);
         List<MallClassCategory> mallClassCategories = mallClassCategoryRepository.findByParent_Serial(serial);
@@ -178,10 +174,15 @@ public class WidgetInfo implements Widget, PreProcessWidget {
 
     }
 
+    @Override
+    public SiteType supportedSiteType() {
+        return SiteType.SITE_PC_SHOP;
+    }
+
     private void setContentURI(Map<String, Object> variables, MallClassCategory mallClassCategory) {
         for (MallProductCategory mallProductCategory : mallClassCategory.getCategories()) {
             try {
-                PageInfo contentPage = CMSContext.RequestContext().getWebApplicationContext().getBean(PageService.class)
+                PageInfo contentPage = getCMSServiceFromCMSContext(PageService.class)
                         .getClosestContentPage(mallProductCategory, (String) variables.get("uri"));
                 mallProductCategory.setContentURI(contentPage.getPagePath());
             } catch (PageNotFoundException e) {
@@ -192,11 +193,10 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     }
 
 
-    private MallClassCategory initMallClassCategory(MallClassCategory parent, List<MallProductCategory>
+    public MallClassCategory initMallClassCategory(MallClassCategory parent, List<MallProductCategory>
             mallProductCategoryList) {
-        CategoryService categoryService = CMSContext.RequestContext().getWebApplicationContext().getBean
-                (CategoryService.class);
-        MallClassCategoryRepository mallClassCategoryRepository = CMSContext.RequestContext().getWebApplicationContext().getBean
+        CategoryService categoryService = getCMSServiceFromCMSContext(CategoryService.class);
+        MallClassCategoryRepository mallClassCategoryRepository = getCMSServiceFromCMSContext
                 (MallClassCategoryRepository.class);
         MallClassCategory mallClassCategory = new MallClassCategory();
         mallClassCategory.setContentType(ContentType.MallClass);
@@ -214,17 +214,15 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         return mallClassCategory;
     }
 
-    private List<MallProductCategory> initMallProductCategory() {
-        CategoryService categoryService = CMSContext.RequestContext().getWebApplicationContext().getBean
-                (CategoryService.class);
+    public List<MallProductCategory> initMallProductCategory() {
+        CategoryService categoryService = getCMSServiceFromCMSContext(CategoryService.class);
         MallProductCategory mallProductCategory = new MallProductCategory();
         mallProductCategory.setSite(CMSContext.RequestContext().getSite());
         mallProductCategory.setCreateTime(LocalDateTime.now());
         mallProductCategory.setName("xxx");
         mallProductCategory.setContentType(ContentType.MallProduct);
         mallProductCategory.setGoodTitle("iphone");
-        MallProductCategoryRepository mallProductCategoryRepository = CMSContext.RequestContext()
-                .getWebApplicationContext().getBean(MallProductCategoryRepository.class);
+        MallProductCategoryRepository mallProductCategoryRepository = getCMSServiceFromCMSContext(MallProductCategoryRepository.class);
         categoryService.init(mallProductCategory);
         mallProductCategoryRepository.save(mallProductCategory);
         List<MallProductCategory> list = new ArrayList<>();
