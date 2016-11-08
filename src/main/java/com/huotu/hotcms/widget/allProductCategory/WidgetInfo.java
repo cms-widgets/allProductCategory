@@ -10,7 +10,6 @@
 package com.huotu.hotcms.widget.allProductCategory;
 
 import com.huotu.hotcms.service.common.ContentType;
-import com.huotu.hotcms.service.common.SiteType;
 import com.huotu.hotcms.service.entity.Link;
 import com.huotu.hotcms.service.entity.MallClassCategory;
 import com.huotu.hotcms.service.entity.MallProductCategory;
@@ -73,7 +72,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
 
     @Override
     public String dependVersion() {
-        return "1.0-SNAPSHOT";
+        return "1.0";
     }
 
     @Override
@@ -174,10 +173,6 @@ public class WidgetInfo implements Widget, PreProcessWidget {
 
     }
 
-    @Override
-    public SiteType supportedSiteType() {
-        return SiteType.SITE_PC_SHOP;
-    }
 
     private void setContentURI(Map<String, Object> variables, MallClassCategory mallClassCategory) {
         for (MallProductCategory mallProductCategory : mallClassCategory.getCategories()) {
