@@ -55,7 +55,7 @@ public class TestWidgetInfo extends WidgetTest {
         WebElement webElement = uiChanger.apply(properties);
         String classSerial = (String) properties.get(WidgetInfo.CLASS_CATEGORY_SERIAL);
         MallClassCategoryRepository mallClassCategoryRepository = widget.getCMSServiceFromCMSContext(MallClassCategoryRepository.class);
-        List<MallClassCategory> mallClassCategories = mallClassCategoryRepository.findByParent_Serial(classSerial);
+        List<MallClassCategory> mallClassCategories = mallClassCategoryRepository.findByParent_SerialAndDeletedFalse(classSerial);
         assertThat(webElement.findElements(By.className("item")).size()).isEqualTo(mallClassCategories.size());
     }
 

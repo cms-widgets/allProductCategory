@@ -120,7 +120,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         properties.put(BG_COLOR, "#0ff");
         properties.put(COLOR, "#fff");
         MallClassCategoryRepository mallClassCategoryRepository = getCMSServiceFromCMSContext(MallClassCategoryRepository.class);
-        List<MallClassCategory> mallClassCategoryList = mallClassCategoryRepository.findBySite(CMSContext.RequestContext().getSite());
+        List<MallClassCategory> mallClassCategoryList = mallClassCategoryRepository.findBySiteAndDeletedFalse(CMSContext.RequestContext().getSite());
         if (mallClassCategoryList.isEmpty()) {
             MallClassCategory mallClassCategory = initMallClassCategory(null, initMallProductCategory());
             MallClassCategory mallClassCategory1 = initMallClassCategory(initMallClassCategory(mallClassCategory
@@ -140,7 +140,8 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         LinkRepository linkRepository = getCMSServiceFromCMSContext(LinkRepository.class);
 
         String serial = (String) properties.get(CLASS_CATEGORY_SERIAL);
-        List<MallClassCategory> mallClassCategories = mallClassCategoryRepository.findByParent_Serial(serial);
+        //todo 获取列表要过滤掉已删除的数据源
+        List<MallClassCategory> mallClassCategories = mallClassCategoryRepository.findByParent_SerialAndDeletedFalse(serial);
         List<MallClassCategoryModel> dataList = new ArrayList<>();
         for (MallClassCategory mallClassCategory : mallClassCategories) {
             MallClassCategoryModel mallClassCategoryModel = mallClassCategory.toMallClassCategoryModel();
@@ -151,13 +152,15 @@ public class WidgetInfo implements Widget, PreProcessWidget {
             setContentURI(variables, mallClassCategory);
             if (mallClassCategoryModel.isParentFlag()) {
                 mallClassCategoryModel.setChildren(new ArrayList<>());
+                //todo 获取列表要过滤掉已删除的数据源
                 for (MallClassCategory children : mallClassCategoryRepository
-                        .findByParent_Serial(mallClassCategoryModel.getSerial())) {
+                        .findByParent_SerialAndDeletedFalse(mallClassCategoryModel.getSerial())) {
                     setContentURI(variables, children);
                     MallClassCategoryModel childrenModel = children.toMallClassCategoryModel();
                     if (childrenModel.isParentFlag()) {
                         childrenModel.setChildren(new ArrayList<>());
-                        for (MallClassCategory children2 : mallClassCategoryRepository.findByParent_Serial(childrenModel
+                        //todo 获取列表要过滤掉已删除的数据源
+                        for (MallClassCategory children2 : mallClassCategoryRepository.findByParent_SerialAndDeletedFalse(childrenModel
                                 .getSerial())) {
                             MallClassCategoryModel children2Model = children2.toMallClassCategoryModel();
                             setContentURI(variables, children2);
