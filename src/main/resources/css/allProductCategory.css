@@ -22,6 +22,7 @@
 /*[[${'#'+componentId+' .categorys-dorpdown .dd .item .item-sub '}]]*/
 {
     border: 1px solid /*[[${BgColor}]]*/ #b61d1d;
+    border-left: none;
 }
 /*同 body 颜色*/
 /*[[${'#'+componentId+' .categorys-dorpdown .dd .item .item-sub .item-channels a:hover '}]]*/{
