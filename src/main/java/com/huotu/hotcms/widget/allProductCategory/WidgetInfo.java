@@ -110,6 +110,11 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     }
 
     @Override
+    public boolean disabled() {
+        return CMSContext.RequestContext().getSite().getOwner() != null && CMSContext.RequestContext().getSite().getOwner().getCustomerId() != null;
+    }
+
+    @Override
     public Class springConfigClass() {
         return null;
     }
@@ -117,8 +122,8 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     @Override
     public ComponentProperties defaultProperties(ResourceService resourceService) throws IOException {
         ComponentProperties properties = new ComponentProperties();
-        properties.put(BG_COLOR, "#0ff");
-        properties.put(COLOR, "#fff");
+        properties.put(BG_COLOR, "#c81623");
+        properties.put("titleBgColor", "#b1191a");
         MallClassCategoryRepository mallClassCategoryRepository = getCMSServiceFromCMSContext(MallClassCategoryRepository.class);
         List<MallClassCategory> mallClassCategoryList = mallClassCategoryRepository.findBySiteAndDeletedFalse(CMSContext.RequestContext().getSite());
         if (mallClassCategoryList.isEmpty()) {
@@ -181,7 +186,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         for (MallProductCategory mallProductCategory : mallClassCategory.getCategories()) {
             try {
                 PageInfo contentPage = getCMSServiceFromCMSContext(PageService.class)
-                        .getClosestContentPage(mallProductCategory, (String) variables.get("uri"));
+                        .getClosestContentPage(mallProductCategory, (String) variables.get("uri"), null);
                 mallProductCategory.setContentURI(contentPage.getPagePath());
             } catch (PageNotFoundException e) {
                 log.warn("...", e);

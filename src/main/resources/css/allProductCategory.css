@@ -1,42 +1,41 @@
-/*[[${'#'+componentId}]]*/
-{
-    background: /*[[${BgColor}]]*/ #fff;
-}
-/*[[${'#'+componentId+' a'}]]*/, /*[[${'#'+componentId +' p'}]]*/
-{
-   color:/*[[${color}]]*/ #444;
-}
+
 /* .product-categorys 就是你那个 [[${'#'+componentId}]] */
 /* .product-categorys 替换成 [[${'#'+componentId}]] */
+
 /*头部 "全部分类颜色" 深色的那个*/
-.product-categorys .categorys-dorpdown .dt a {
-    background: #b1191a;
+/*[[${'#'+componentId+' .categorys-dorpdown .dt a '}]]*/
+{
+    background: /*[[${titleBgColor}]]*/ #b1191a;
 }
+
 /*body 颜色 浅色的那个*/
-.product-categorys .categorys-dorpdown .dd {
-    background: #c81623;
+/*[[${'#'+componentId+' .categorys-dorpdown .dd '}]]*/
+{
+    background: /*[[${BgColor}]]*/ #c81623;
 }
 /*同 body 颜色*/
-.product-categorys .categorys-dorpdown .dd .item .item-top {
-    border-left: 1px solid #b61d1d;
+/*[[${'#'+componentId+' .categorys-dorpdown .dd .item .item-top '}]]*/
+{
+    border-left: 1px solid /*[[${BgColor}]]*/ #b61d1d;
 }
 /*同 body 颜色*/
-.product-categorys .categorys-dorpdown .dd .item .item-sub {
-    border: 1px solid #b61d1d;
+/*[[${'#'+componentId+' .categorys-dorpdown .dd .item .item-sub '}]]*/
+{
+    border: 1px solid /*[[${BgColor}]]*/ #b61d1d;
 }
 /*同 body 颜色*/
-.product-categorys .categorys-dorpdown .dd .item .item-sub .item-channels a:hover {
-    background: #c81623;
+/*[[${'#'+componentId+' .categorys-dorpdown .dd .item .item-sub .item-channels a:hover '}]]*/{
+    background: /*[[${BgColor}]]*/ #c81623;
 }
 /*同 头部 颜色*/
-.product-categorys .categorys-dorpdown .dd .item .item-sub .item-channels a:hover i {
-    background: #b1191a;
+/*[[${'#'+componentId+' .categorys-dorpdown .dd .item .item-sub .item-channels a:hover i '}]]*/{
+    background: /*[[${titleBgColor}]]*/ #b1191a;
 }
 /*同 body 颜色*/
-.product-categorys .categorys-dorpdown .dd .item .item-sub .subitems a:hover {
-    color: #b61d1d;
+/*[[${'#'+componentId+' .categorys-dorpdown .dd .item .item-sub .subitems a:hover '}]]*/{
+    color: /*[[${BgColor}]]*/ #b61d1d;
 }
 /*同 body 颜色*/
-.product-categorys .categorys-dorpdown .dd .item.show .item-top a {
-    color: #b61d1d;
+/*[[${'#'+componentId+' .categorys-dorpdown .dd .item.show .item-top a '}]]*/{
+    color: /*[[${BgColor}]]*/ #b61d1d;
 }

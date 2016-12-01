@@ -6,7 +6,7 @@ CMSWidgets.initWidget({
     editor: {
         saveComponent: function (onFailed) {
             this.properties.BgColor = $(".BgColor").val();
-            this.properties.color = $(".color").val();
+            this.properties.titleBgColor = $(".titleBgColor").val();
             if (this.properties.classCategorySerial == undefined || this.properties.classCategorySerial == '') {
                 onFailed('商城类目数据源不能为空');
                 return;
